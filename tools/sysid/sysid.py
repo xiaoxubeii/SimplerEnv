@@ -234,12 +234,24 @@ if __name__ == "__main__":
         # damping_low = np.array([250, 150, 100, 240, 150, 200])
         # init_stiffness = np.array([1169.7891719504198, 730.0, 808.4601346394447, 1229.1299089624076, 1272.2760456418862, 1056.3326605132252])
         # init_damping = np.array([330.0, 180.0, 152.12036565582588, 309.6215302722146, 201.04998711007383, 269.51458932695414])
+    elif args.robot == "rongqirobot":
+        control_mode = "default"
+
+        # Define stiffness and damping ranges for RongqiRobot
+        stiffness_high = np.array([2000, 2000, 2000, 1500, 1500, 1000, 1000])
+        stiffness_low = np.array([1000, 1000, 1000, 800, 800, 500, 500])
+        damping_high = np.array([1000, 1000, 1000, 800, 800, 500, 500])
+        damping_low = np.array([500, 500, 500, 400, 400, 250, 250])
+
+        # Initial values for stiffness and damping
+        init_stiffness = np.array([1500, 1500, 1500, 1150, 1150, 750, 750])
+        init_damping = np.array([750, 750, 750, 600, 600, 375, 375])
     else:
         raise NotImplementedError()
 
-    raw_action_to_stiffness = lambda x: stiffness_low + (stiffness_high - stiffness_low) * x[: len(stiffness_high)]
+    def raw_action_to_stiffness(x): return stiffness_low + (stiffness_high - stiffness_low) * x[: len(stiffness_high)]
     raw_action_to_damping = (
-        lambda x: damping_low + (damping_high - damping_low) * x[len(stiffness_high) : 2 * len(stiffness_high)]
+        lambda x: damping_low + (damping_high - damping_low) * x[len(stiffness_high): 2 * len(stiffness_high)]
     )
 
     init_action = np.concatenate(
@@ -249,7 +261,7 @@ if __name__ == "__main__":
         ]
     )
 
-    opt_fxn = lambda x: calc_pose_err(
+    def opt_fxn(x): return calc_pose_err(
         dset,
         raw_action_to_stiffness(x),
         raw_action_to_damping(x),
