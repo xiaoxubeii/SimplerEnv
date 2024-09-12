@@ -18,7 +18,7 @@ def calc_pose_err_single_ep(episode, arm_stiffness, arm_damping, robot, control_
     import mani_skill2_real2sim.envs
     from sapien.core import Pose
 
-    assert robot in ["google_robot_static", "widowx"]
+    assert robot in ["google_robot_static", "widowx", "rongqirobot"]
     if robot == "google_robot_static":
         # append dummy stiffness & damping for the camera links in google robot, which do not affect the results
         arm_stiffness = np.concatenate([arm_stiffness, [2000, 2000]])
@@ -28,6 +28,9 @@ def calc_pose_err_single_ep(episode, arm_stiffness, arm_damping, robot, control_
         sim_freq, control_freq = 252, 3
     elif robot == "widowx":
         sim_freq, control_freq = 500, 5
+    elif robot == "rontqirobot":
+        sim_freq, control_freq = 500, 5
+
     env = gym.make(
         "GraspSingleDummy-v0",
         control_mode=control_mode,
