@@ -8,7 +8,7 @@ import os
 import pickle
 
 import numpy as np
-import simulated_annealing as sa
+from .. import simulated_annealing as sa
 from transforms3d.euler import euler2axangle
 from transforms3d.quaternions import axangle2quat, quat2axangle, quat2mat
 
