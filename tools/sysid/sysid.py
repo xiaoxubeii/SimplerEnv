@@ -28,7 +28,7 @@ def calc_pose_err_single_ep(episode, arm_stiffness, arm_damping, robot, control_
         sim_freq, control_freq = 252, 3
     elif robot == "widowx":
         sim_freq, control_freq = 500, 5
-    elif robot == "rontqirobot":
+    elif robot == "rongqirobot":
         sim_freq, control_freq = 500, 5
 
     env = gym.make(
